@@ -1,9 +1,7 @@
 import axios from 'axios';
 
-const BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:5000';
-
 const analyzeNoteWithAI = async (content) => {
-  const API_KEY = process.env.REACT_APP_OPENAI_API_KEY;
+  const API_KEY = process.env.VITE_OPENAI_API_KEY;
 
   if (!API_KEY) {
     console.error('Missing API key in environment variables.');
@@ -52,15 +50,18 @@ const createNote = async (noteData) => {
 };
 
 // Function to fetch all notes
+
 const fetchNotes = async () => {
   try {
     const response = await axios.get(`${BASE_URL}/api/notes`);
+    console.log('Fetched notes:', response.data);
     return response.data;
   } catch (error) {
-    console.error('Error fetching notes:', error);
+    console.error('Error fetching notes:', error.response?.data || error.message);
     throw error;
   }
 };
+
 
 // Function to delete a note by ID
 const deleteNote = async (id) => {
@@ -83,6 +84,8 @@ const updateNote = async (id, noteData) => {
     throw error;  
   }
 };
+
+
 
 // Export the functions
 export { analyzeNoteWithAI, createNote, fetchNotes, updateNote, deleteNote };

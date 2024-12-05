@@ -6,7 +6,7 @@ import NoteList from './components/NoteList';
 
 const App = () => {
   const [notes, setNotes] = useState([]);
-
+  
   useEffect(() => {
     const loadNotes = async () => {
       try {
@@ -31,7 +31,7 @@ const App = () => {
   return (
     <div className="app">
       <h1>Notes</h1>
-      <NoteForm onNoteAdded={(newNote) => setNotes([...notes, newNote])} />
+      <NoteForm onNoteCreated={(newNote) => setNotes([...notes, newNote])} />
       <NoteList notes={notes} onDelete={handleDelete} />
       <Firefly />
     </div>

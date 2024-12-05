@@ -61,16 +61,6 @@ const NoteForm = ({ onNoteCreated, noteToEdit, onNoteUpdated }) => {
         </form>
     );
 
-    // Delete note handler
-    const deleteNoteHandler = async (id) => {
-        try {
-            await deleteNote(id); 
-            console.log('Note deleted');
-            onNoteUpdated(id);  
-        } catch (error) {
-            console.error('Error deleting note:', error);
-        }
-    };
 };
 
 export default NoteForm;

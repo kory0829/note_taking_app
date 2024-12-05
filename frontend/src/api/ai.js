@@ -1,5 +1,5 @@
 const analyzeNoteWithAI = async (content) => {
-  const API_KEY = process.env.REACT_APP_OPENAI_API_KEY; 
+  const API_KEY = process.env.VITE_OPENAI_API_KEY; 
   if (!API_KEY) {
     console.error("Missing OpenAI API key in environment variables.");
     return 'Error: Missing API key';
