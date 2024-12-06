@@ -1,42 +1,6 @@
 import axios from 'axios';
 
-const analyzeNoteWithAI = async (content) => {
-  const API_KEY = process.env.VITE_OPENAI_API_KEY;
-
-  if (!API_KEY) {
-    console.error('Missing API key in environment variables.');
-    return 'Error: Missing API key';
-  }
-
-  const endpoint = 'https://api.openai.com/v1/chat/completions';
-
-  try {
-    const response = await axios.post(
-      endpoint,
-      {
-        model: 'gpt-3.5-turbo',
-        messages: [
-          { role: 'system', content: 'You are a helpful assistant that categorizes notes.' },
-          { role: 'user', content: `Categorize the following note content into a category: "${content}"` },
-        ],
-        max_tokens: 100,  
-        temperature: 0.5,
-      },
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${API_KEY}`,
-        },
-      }
-    );
-
-    const category = response.data.choices[0].message.content.trim();
-    return category || 'Uncategorized';
-  } catch (error) {
-    console.error('Error analyzing note with AI:', error);
-    return 'Error';
-  }
-};
+const BASE_URL = 'http://localhost:5000';
 
 // Function to create a new note
 const createNote = async (noteData) => {
@@ -44,13 +8,12 @@ const createNote = async (noteData) => {
     const response = await axios.post(`${BASE_URL}/api/notes`, noteData);
     return response.data;
   } catch (error) {
-    console.error('Error creating note:', error);
+    console.error('Error creating note:', error.response?.data || error.message);
     throw error;
   }
 };
 
 // Function to fetch all notes
-
 const fetchNotes = async () => {
   try {
     const response = await axios.get(`${BASE_URL}/api/notes`);
@@ -62,14 +25,14 @@ const fetchNotes = async () => {
   }
 };
 
-
 // Function to delete a note by ID
 const deleteNote = async (id) => {
   try {
-    await axios.delete(`${BASE_URL}/api/notes/${id}`);
+    const response = await axios.delete(`${BASE_URL}/api/notes/${id}`);
     console.log(`Note with ID ${id} deleted successfully.`);
+    return response.data;
   } catch (error) {
-    console.error('Error deleting note:', error);
+    console.error('Error deleting note:', error.response?.data || error.message);
     throw error;
   }
 };
@@ -77,18 +40,32 @@ const deleteNote = async (id) => {
 // Function to update an existing note
 const updateNote = async (id, noteData) => {
   try {
-    const response = await axios.put(`/api/notes/${id}`, noteData);
-    return response.data; 
+    if (!id || !noteData || typeof noteData !== 'object') {
+      throw new Error('Invalid ID or note data for updating');
+    }
+    const response = await axios.put(`${BASE_URL}/api/notes/${id}`, noteData);
+    console.log(`Note with ID ${id} updated successfully:`, response.data);
+    return response.data;
   } catch (error) {
-    console.error('Error updating note:', error);
-    throw error;  
+    console.error('Error updating note:', error.response?.data || error.message);
+    throw error;
   }
 };
 
+// Function to fetch notes by category
+const fetchNotesByCategory = async (category) => {
+  try {
+    const response = await fetch(`${BASE_URL}/api/notes?category=${category}`);
+    if (!response.ok) {
+      throw new Error('Failed to fetch notes');
+    }
+    const notes = await response.json();
+    console.log('Search Results:', notes);
+    return notes;
+  } catch (error) {
+    console.error('Error fetching notes by category:', error.message);
+    throw error;
+  }
+};
 
-
-// Export the functions
-export { analyzeNoteWithAI, createNote, fetchNotes, updateNote, deleteNote };
-
-
-
+export { createNote, fetchNotes, updateNote, deleteNote, fetchNotesByCategory };

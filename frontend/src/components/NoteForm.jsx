@@ -1,36 +1,32 @@
 import React, { useState } from 'react';
-import { createNote, updateNote, deleteNote } from '../api/api';  
-import analyzeNoteWithAI from '../api/ai';  
+import { createNote, updateNote, deleteNote } from '../api/api';
 
 const NoteForm = ({ onNoteCreated, noteToEdit, onNoteUpdated }) => {
-    const [title, setTitle] = useState(noteToEdit?.title || '');  
-    const [content, setContent] = useState(noteToEdit?.content || ''); 
-    const [category, setCategory] = useState(noteToEdit?.category || ''); 
+    const [title, setTitle] = useState(noteToEdit?.title || '');
+    const [content, setContent] = useState(noteToEdit?.content || '');
+    const [category, setCategory] = useState(noteToEdit?.category || '');
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         console.log('Submitting note:', { title, content });
 
-        const category = await analyzeNoteWithAI(content) || 'Uncategorized';
-        console.log('Category from AI:', category);
-        
-        const newNote = { title, content, category };
+        const newNote = { title, content, category: category || 'Uncategorized' };
         console.log('Note to send:', newNote);
 
         try {
             let savedNote;
-            if (noteToEdit) {  
-                savedNote = await updateNote(noteToEdit._id, newNote); 
+            if (noteToEdit) {
+                savedNote = await updateNote(noteToEdit._id, newNote);
                 console.log('Note updated:', savedNote);
-                onNoteUpdated(savedNote);  
-            } else {  
+                onNoteUpdated(savedNote);
+            } else {
                 savedNote = await createNote(newNote);
                 console.log('Note saved:', savedNote);
-                onNoteCreated(savedNote);  
+                onNoteCreated(savedNote);
             }
-            setTitle('');  
-            setContent('');  
-            setCategory(''); 
+            setTitle('');
+            setContent('');
+            setCategory('');
         } catch (error) {
             console.error('Error saving note:', error);
         }
@@ -49,18 +45,23 @@ const NoteForm = ({ onNoteCreated, noteToEdit, onNoteUpdated }) => {
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
             ></textarea>
+            <input
+                type="text"
+                placeholder="Category"
+                value={category}
+                onChange={(e) => setCategory(e.target.value)}
+            />
             <button type="submit">{noteToEdit ? 'Update Note' : 'Add Note'}</button>
             {noteToEdit && (
-                <button 
+                <button
                     type="button"
-                    onClick={() => deleteNoteHandler(noteToEdit._id)}  
+                    onClick={() => deleteNoteHandler(noteToEdit._id)}
                 >
                     Delete Note
                 </button>
             )}
         </form>
     );
-
 };
 
 export default NoteForm;

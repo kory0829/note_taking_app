@@ -1,25 +1,25 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-require('dotenv').config();  
+require('dotenv').config();
 
-const noteRoutes = require('./routes/notes'); 
+const noteRoutes = require('./routes/notes');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 
 // Middleware
 app.use(cors());
-app.use(express.json()); 
+app.use(express.json());
 
 // Routes
 app.use('/api/notes', noteRoutes);
 
 // MongoDB connection
-const mongoURI = process.env.MONGO_URI; 
+const mongoURI = process.env.MONGO_URI;
 if (!mongoURI) {
-  console.error("MongoDB URI is missing in .env file");
-  process.exit(1); 
+  console.error('MongoDB URI is missing in .env file');
+  process.exit(1);
 }
 
 mongoose.connect(mongoURI, {
@@ -31,7 +31,7 @@ mongoose.connect(mongoURI, {
   })
   .catch((err) => {
     console.error('MongoDB connection error:', err.message);
-    process.exit(1); 
+    process.exit(1);
   });
 
 app.listen(PORT, () => {

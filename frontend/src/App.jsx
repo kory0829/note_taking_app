@@ -1,12 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { fetchNotes, deleteNote } from './api/api';  
+import { fetchNotes, deleteNote } from './api/api';
 import NoteForm from './components/NoteForm';
-import Firefly from './components/FireFly'; 
+import Firefly from './components/FireFly';
 import NoteList from './components/NoteList';
+import Navbar from './components/Navbar';
+import Footer from './components/Footer';
+import About from './pages/About';
+import Contact from './pages/Contact';
+
+
 
 const App = () => {
   const [notes, setNotes] = useState([]);
-  
+
   useEffect(() => {
     const loadNotes = async () => {
       try {
@@ -30,10 +36,14 @@ const App = () => {
 
   return (
     <div className="app">
-      <h1>Notes</h1>
+      <Navbar />
+      <h1>Notefy📝</h1>
       <NoteForm onNoteCreated={(newNote) => setNotes([...notes, newNote])} />
       <NoteList notes={notes} onDelete={handleDelete} />
       <Firefly />
+      <About />
+      <Contact />
+      <Footer />
     </div>
   );
 };

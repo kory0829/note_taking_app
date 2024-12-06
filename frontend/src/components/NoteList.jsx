@@ -1,7 +1,6 @@
-// NoteList.jsx
-import React, { useEffect, useState } from 'react';
-import { fetchNotes, deleteNote } from '../api/api';
-import NoteItem from './NoteItem'; 
+import React, { useState, useEffect } from 'react';
+import { fetchNotes, updateNote, deleteNote } from '../api/api'; 
+import NoteItem from './NoteItem';
 
 const NoteList = () => {
     const [notes, setNotes] = useState([]);
@@ -15,20 +14,26 @@ const NoteList = () => {
                 console.error('Error loading notes:', error);
             }
         };
-
         getNotes();
     }, []);
 
-    const handleDelete = (id) => {
-        deleteNote(id);
-        setNotes(notes.filter((note) => note._id !== id));  // Remove note from state
+    const handleDelete = async (id) => {
+        try {
+            await deleteNote(id);
+            setNotes(notes.filter((note) => note._id !== id));
+        } catch (error) {
+            console.error('Error deleting note:', error);
+        }
     };
 
-    const handleEdit = (id, newTitle, newContent) => {
-        const updatedNotes = notes.map((note) =>
-            note._id === id ? { ...note, title: newTitle, content: newContent } : note
-        );
-        setNotes(updatedNotes);
+    const handleEdit = async (id, newTitle, newContent) => {
+        try {
+            const updatedNote = { _id: id, title: newTitle, content: newContent };
+            await updateNote(id, updatedNote); 
+            setNotes(notes.map((note) => (note._id === id ? updatedNote : note))); 
+        } catch (error) {
+            console.error('Error updating note:', error);
+        }
     };
 
     return (

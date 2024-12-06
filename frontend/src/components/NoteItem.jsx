@@ -1,4 +1,3 @@
-// NoteItem.jsx
 import React, { useState } from 'react';
 
 const NoteItem = ({ note, onDelete, onEdit }) => {
@@ -10,8 +9,10 @@ const NoteItem = ({ note, onDelete, onEdit }) => {
         const newTitle = prompt('Edit note title:', note.title);
         const newContent = prompt('Edit note content:', note.content);
 
-        if (newTitle !== null && newContent !== null) {
-            onEdit(note._id, newTitle, newContent);
+        if (newTitle?.trim() && newContent?.trim()) {
+            onEdit(note._id, newTitle.trim(), newContent.trim());
+        } else {
+            alert('Title and content cannot be empty.');
         }
     };
 
