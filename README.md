@@ -39,7 +39,7 @@ Cheers! 👍
 
 **Deployment**
 - Firebase: Hosting the frontend.
-- Heroku: Hosting the backend.
+- Render: Hosting the backend.
 
 **Installation Steps**
 
