@@ -7,7 +7,7 @@ const About = () => {
             <hr></hr>
             <h1>About Our Note-Taking App</h1>
             <p>
-                Welcome to our note-taking app! This application is designed to help you
+                Welcome to <span className = "note">Notefy</span>, our note-taking app! This application is designed to help you
                 capture, organize, and manage your notes effortlessly. Whether you're jotting down a quick idea
                 or keeping track of important information, our app is here to make the process seamless and stress-free.
             </p>
@@ -25,12 +25,17 @@ const About = () => {
                     <strong>Core Features Only:</strong> 
                     Our app avoids overwhelming you with extra features, allowing you to focus on creating, editing, and deleting notes efficiently.
                 </li>
+                <li>
+                    <strong>Special Music Trinket:</strong> 
+                    Because we know you love your music, our app accomodates your Spotify playlist so you can listen to your favourite jams while taking down notes😊 You are welcome!. Click the <span className='note'> ▶ </span>   button, sign in and listen away.
+                </li>
             </ul>
             <h2>Features</h2>
             <ul>
                 <li>Create notes with a title and body content.</li>
                 <li>Edit notes to keep your information up-to-date.</li>
                 <li>Delete notes you no longer need.</li>
+                <li>Listen to your favourite Spotify plsylist</li>
                 <li>Smooth and responsive user experience across all devices.</li>
             </ul>
             <p>

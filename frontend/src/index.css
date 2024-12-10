@@ -1,4 +1,4 @@
-/* Global Reset */
+Global Reset
 * {
   margin: 0px;
   padding: 0px;
@@ -7,7 +7,7 @@
 
 /* Root Variables */
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family:'Courier New', Courier, monospace;
   line-height: 1.5;
   font-weight: 400;
   color-scheme: light dark;
@@ -67,6 +67,37 @@
   100% {
     transform: translate(0, 0);
   }
+}
+
+.note {
+  display: inline-block;
+  animation: note 1s infinite;
+  font-style: italic;
+  font-size: 20px;
+}
+
+@keyframes note {
+0%{
+  transform: rotate(0deg);
+}
+10%{
+  transform: rotate(5deg);
+}  
+20%{
+  transform: rotate(-5deg);
+}
+30%{
+  transform: rotate(5deg);
+}
+40%{
+  transform: rotate(-5deg);
+}
+50%{
+  transform: rotate(0deg);
+}
+100%{
+  transform: rotate(0deg);
+}
 }
 
 /* Firefly sizing and timing */
@@ -209,7 +240,7 @@ body {
   min-width: 100px;
   min-height: 100vh;
   background: linear-gradient(135deg, #1b1b1b, #000000);
-  overflow-x: hidden;
+  overflow-x: auto;
   font-family: 'Arial', sans-serif;
 }
 
@@ -232,11 +263,28 @@ body {
 
 
 /* Heading */
+
 h1 {
+  background-image: linear-gradient(to right, #34C759, #2ECC71, #1D976C);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradient 5s infinite;
   font-size: 24px;
-  color: #fff;
   text-align: center;
-  margin-bottom: 20px;
+  padding: 20px;
+}
+
+@keyframes gradient {
+  0% {
+    background-image: linear-gradient(to right, #34C759, #2ECC71, #1D976C);
+  }
+  50% {
+    background-image: linear-gradient(to right, #2ECC71, #1D976C, #34C759);
+  }
+  100% {
+    background-image: linear-gradient(to right, #1D976C, #34C759, #2ECC71);
+  }
 }
 
 /* Form and Input Styling */
@@ -249,11 +297,10 @@ form {
 }
 
 
-
 input[type="text"],
 textarea {
   padding: 12px;
-  border: 1px solid #ddd;
+  border: 1px solid #ffffff66;
   border-radius: 6px;
   font-size: 16px;
   transition: border-color 0.3s;
@@ -274,6 +321,8 @@ button {
   background-color: #4CAF50;
   color: white;
   border: none;
+  margin-bottom: 20px;
+  font-weight: bolder;
   border-radius: 6px;
   font-size: 16px;
   cursor: pointer;
@@ -520,6 +569,7 @@ button {
 .about-container h2 {
   color: #4CAF50;
   margin-bottom: 10px;
+  font-weight: thin;
 }
 
 .about-container p {
@@ -549,6 +599,7 @@ button {
 
 .contact-container h1 {
   font-size: 24px;
+  font-weight: thin;
   color: #fff;
   text-align: center;
 }
@@ -617,7 +668,7 @@ button {
   justify-content: space-between;
   align-items: center;
   padding: 10px 20px;
-  background-color: #242424;
+  background-color: transparent;
   color: white;
 }
 
@@ -626,6 +677,7 @@ button {
   display: flex;
   gap: 20px;
   list-style: none;
+  font-weight: thin;
 }
 
 .nav-links a {
@@ -669,4 +721,119 @@ button {
 
 .footer-links a:hover {
   color: #4CAF50;
+}
+
+/* styles for music button */
+.music-button-container {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+}
+
+.music-button {
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: transparent;
+  color:#4CAF50;
+  cursor: pointer;
+}
+
+.music-button.glow {
+  box-shadow: 0 0 10px #4CAF50;
+  animation: glow 1s infinite;
+}
+
+@keyframes glow {
+  0% {
+    box-shadow: 0 0 10px #4CAF50;
+  }
+  50% {
+    box-shadow: 0 0 20px #4CAF50;
+  }
+  100% {
+    box-shadow: 0 0 10px #4CAF50;
+  }
+}
+
+.tooltip {
+  position: absolute;
+  top: -100%;
+  left: -120%;
+  transform: translate(-50%, -50%);
+  background-color: transparent;
+  border: 1px solid #4dcb27;
+  padding: 10px;
+  width: 200px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.tooltip-button {
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: transparent;
+  color: #4CAF50;
+  cursor: pointer;
+  margin: 5px;
+}
+
+.tooltip-text {
+  font-size: 14px;
+  color: #666;
+  margin: 10px;
+}
+
+.tooltip-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  background-color:transparent;
+  color: #fff;
+  cursor: pointer;
+}
+
+/* iPhone XR (414px) */
+@media only screen and (max-width: 414px) {
+  .music-button-container {
+    bottom: 10px;
+    right: 10px;
+  }
+  .tooltip {
+    width: 100px;
+    left: -90%;
+  }
+  .tooltip-button {
+    margin: 2px;
+    padding: 2px 5px;
+  }
+  .tooltip-text {
+    font-size: 12px;
+    margin: 5px;
+  }
+}
+
+/* iPad mini (768px) */
+@media only screen and (max-width: 768px) {
+  .music-button-container {
+    bottom: 20px;
+    right: 20px;
+  }
+  .tooltip {
+    width: 180px;
+    left: -100%;
+  }
+  .tooltip-button {
+    margin: 3px;
+    padding: 3px 7px;
+  }
+  .tooltip-text {
+    font-size: 13px;
+    margin: 7px;
+  }
 }

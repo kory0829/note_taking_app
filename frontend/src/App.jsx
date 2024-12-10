@@ -7,7 +7,8 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import About from './pages/About';
 import Contact from './pages/Contact';
-
+import MusicButton from './components/MusicButton';
+import SearchModal from './components/SearchModal';
 
 
 const App = () => {
@@ -37,7 +38,9 @@ const App = () => {
   return (
     <div className="app">
       <Navbar />
-      <h1>Notefy📝</h1>
+      <SearchModal/>
+      <MusicButton/>
+      <h1>Notefy-🧾</h1>
       <NoteForm onNoteCreated={(newNote) => setNotes([...notes, newNote])} />
       <NoteList notes={notes} onDelete={handleDelete} />
       <Firefly />

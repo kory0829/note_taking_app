@@ -3,18 +3,48 @@ const router = express.Router();
 const Note = require('../models/noteModel');
 
 // routes/notes.js
+// router.get('/', async (req, res) => {
+//     try {
+//         const { category } = req.query;
+
+//         const query = category ? { category } : {};
+//         const notes = await Note.find(query);
+//         res.json(notes);
+//     } catch (err) {
+//         console.error('Error fetching notes:', err);
+//         res.status(500).json({ message: 'Error fetching notes' });
+//     }
+// });
+
+
+
+// hkzoudss
+
 router.get('/', async (req, res) => {
     try {
+        // Extract category from query string and ensure it is a valid string
         const { category } = req.query;
+        const query = category ? { category: String(category).trim() } : {};
 
-        const query = category ? { category } : {};
+        // Fetch notes from the database, applying category filter if present
         const notes = await Note.find(query);
-        res.json(notes);
+
+        // Return the notes or an empty array if no notes found
+        res.json(notes || []);
     } catch (err) {
         console.error('Error fetching notes:', err);
-        res.status(500).json({ message: 'Error fetching notes' });
+
+        // Send more detailed error response
+        res.status(500).json({ 
+            message: 'Failed to retrieve notes',
+            error: err.message 
+        });
     }
 });
+
+
+// Search Note
+  
 
 // Create a new note
 router.post('/', async (req, res) => {
